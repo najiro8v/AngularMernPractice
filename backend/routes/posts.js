@@ -75,10 +75,30 @@ router.put(
 );
 
 router.get("", (req, res, next) => {
-  Post.find().then(documents => {
+  const pageSize=+req.query.pageSize; //use the "+" like a parserInt
+  const currentPage=req.query.page;
+  const postQuery=Post.find();
+  let fetchedPosts;
+  if(pageSize&&currentPage){
+    postQuery.
+    skip(pageSize*(currentPage -1)). /**skip de current page multiply with the page size CurrentPag=2 and pageSize=10 => then i gonna use starting the documents by the (20*10) 20*/
+    limit(pageSize); /**Limit delimiter my quantity of data, with the pageSize (10), just only ten elements no matter what is after. */
+    // parserInt the pageSize
+  }
+  postQuery.find().then(documents => {
+    fetchedPosts=documents;
+    return Post.cout();
+    
+    /*
     res.status(200).json({
       message: "Posts fetched successfully!",
       posts: documents
+    });*/
+  }).then(count=>{
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: fetchedPosts,
+      maxPosts:count
     });
   });
 });
