@@ -22,7 +22,7 @@ export class PostsService {
       .pipe(
         map((postData) => {
           return {
-            posts: postData.posts.map((post) => {
+            posts: postData.posts.map((post:any) => {
               return {
                 title: post.title,
                 content: post.content,
