@@ -8,9 +8,12 @@ const userRoutes = require("./routes/user");
 
 const app = express();
 
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
 mongoose
   .connect(
-    "mongodb+srv://UserService:86501441@cluster0.6ghek.mongodb.net/Cluster0?retryWrites=true&w=majority"
+    "mongodb+srv://UserService:86501441@cluster0.6ghek.mongodb.net/Cluster0"
   )
   .then(() => {
     console.log("Connected to database!");

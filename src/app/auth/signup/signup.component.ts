@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../auth.service";
 
 @Component({
   selector: "app-signup",
@@ -9,7 +10,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
 export class SignupComponent implements OnInit {
   private form!: FormGroup;
   isLoading: boolean = false;
-
+  constructor(public authService: AuthService) {}
   ngOnInit(): void {
     this.form = new FormGroup({
       user: new FormControl("", [Validators.required, Validators.minLength(5)]),
@@ -18,6 +19,9 @@ export class SignupComponent implements OnInit {
   }
 
   saveData() {
-    console.log(this.form.controls);
+    this.authService.createUser(
+      this.form.controls.user.value,
+      this.form.controls.pass.value
+    );
   }
 }
